@@ -1,0 +1,176 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_aws/installing-aws-customizations.adoc
+// * installing/installing_aws/installing-aws-network-customizations.adoc
+// Consider also adding the installation-configuration-parameters.adoc module.
+
+
+[id="installation-configuration-parameters_{context}"]
+= Installation configuration parameters
+
+Before you deploy an {product-title} cluster, you provide parameter values to
+describe your Amazon Web Services (AWS) account and optionally customize your
+cluster's platform. When you create the `install-config.yaml` installation
+configuration file, you provide values for the required parameters through the
+command line. If you customize your cluster, you can modify the
+`install-config.yaml` file to provide more details about the platform.
+
+[NOTE]
+====
+You cannot modify these parameters after installation.
+====
+
+.Required parameters
+[cols=".^2,.^3,.^5a",options="header"]
+|====
+|Parameter|Description|Values
+
+|`baseDomain`
+|The base domain of your cloud provider. This value is used to create routes
+to your {product-title} cluster components. The full DNS name for your cluster
+is a combination of the `baseDomain` and `metadata.name` parameter values that
+uses the `<metadata.name>.<baseDomain>` format.
+|A fully-qualified domain or subdomain name, such as `example.com`.
+
+|`controlPlane.platform`
+|The cloud provider to host the control plane machines. This parameter value
+must match the `compute.platform` parameter value.
+|`aws`
+
+|`compute.platform`
+|The cloud provider to host the worker machines. This parameter value
+must match the `controlPlane.platform` parameter value.
+|`aws`
+
+|`metadata.name`
+|The name of your cluster.
+|A string that contains uppercase or lowercase letters, such as `dev`.
+
+|`platform.aws.region`
+|The region to deploy your cluster in.
+|A valid AWS region, such as `us-east-1`.
+
+|`pullSecret`
+|The pull secret that you obtained from the
+link:https://cloud.redhat.com/openshift/install[OpenShift Infrastructure Providers] page.
+You use this pull secret to authenticate with the services that are
+provided by the included authorities, including Quay.io, which serves the
+container images for {product-title} components.
+|
+[source,json]
+----
+{
+   "auths":{
+      "cloud.openshift.com":{
+         "auth":"b3Blb=",
+         "email":"you@example.com"
+      },
+      "quay.io":{
+         "auth":"b3Blb=",
+         "email":"you@example.com"
+      }
+   }
+}
+----
+
+|====
+
+
+.Optional AWS platform parameters
+[cols=".^2,.^3a,.^3a",options="header"]
+|====
+|Parameter|Description|Values
+
+|`sshKey`
+|The SSH key to use to access your cluster machines.
+[NOTE]
+====
+For production {product-title} clusters on which you want to perform installation
+debugging or disaster recovery, you must provide an SSH key that your `ssh-agent`
+process uses to the installation program.
+====
+|A valid, local public SSH key that you added to the `ssh-agent` process.
+
+|`compute.hyperthreading`
+|Whether to enable or disable simultaneous multithreading, or `hyperthreading`
+on compute machines. By default, simultaneous multithreading is enabled
+to increase the performance of your machines' cores.
+[IMPORTANT]
+====
+If you disable simultaneous multithreading, ensure that your capacity planning
+accounts for the dramatically decreased machine performance.
+====
+|`Enabled` or `Disabled`
+
+|`compute.platform.aws.rootVolume.iops`
+|The Input/Output Operations Per Second (IOPS) that is reserved for the root volume.
+|Integer, for example `4000`.
+
+|`compute.platform.aws.rootVolume.size`
+|The size in GiB of the root volume.
+|Integer, for example `500`.
+
+|`compute.platform.aws.rootVolume.type`
+|The instance type of the root volume.
+|Valid link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html[AWS EBS instance type],
+such as `io1`.
+
+|`compute.platform.aws.type`
+|The EC2 instance type for the compute machines.
+|Valid link:https://aws.amazon.com/ec2/instance-types/[AWS instance type],
+such as `c5.9xlarge`.
+
+|`compute.platform.aws.zones`
+|The availability zones where the installation program creates machines for the
+compute MachinePool.
+|A list of valid AWS availability zones, such as `us-east-1c`, in a
+link:https://yaml.org/spec/1.2/spec.html#sequence//[YAML sequence].
+
+|`compute.aws.region`
+|The AWS region that the installation program creates compute resources in.
+|Valid link:https://docs.aws.amazon.com/general/latest/gr/rande.html[AWS region],
+such as `us-east-1`.
+
+|`compute.replicas`
+|The number of compute, or worker, machines to provision.
+|A positive integer greater than or equal to `2`. The default value is `3`.
+
+|`controlPlane.hyperthreading`
+|Whether to enable or disable simultaneous multithreading, or `hyperthreading`
+on control plane machines. By default, simultaneous multithreading is enabled
+to increase the performance of your machines' cores.
+[IMPORTANT]
+====
+If you disable simultaneous multithreading, ensure that your capacity planning
+accounts for the dramatically decreased machine performance.
+====
+|`Enabled` or `Disabled`
+
+|`controlPlane.platform.aws.type`
+|The EC2 instance type for the control plane machines.
+|Valid link:https://aws.amazon.com/ec2/instance-types/[AWS instance type],
+such as `c5.9xlarge`.
+
+|`controlPlane.platform.aws.zones`
+|The availability zones where the installation program creates machines for the
+control plane MachinePool.
+|A list of valid AWS availability zones, such as `us-east-1c`, in a
+link:https://yaml.org/spec/1.2/spec.html#sequence//[YAML sequence].
+
+|`controlPlane.aws.region`
+|The AWS region that the installation program creates control plane resources in.
+|Valid link:https://docs.aws.amazon.com/general/latest/gr/rande.html[AWS region],
+such as `us-east-1`.
+
+|`controlPlane.replicas`
+|The number of control plane machines to provision.
+|A positive integer greater than or equal to `3`. The default value is `3`.
+
+|`platform.aws.userTags`
+|A map of keys and values that the installation program adds as tags to all
+resources that it creates.
+|Any valid YAML map, such as key value pairs in the `<key>: <value>` format.
+For more information about AWS tags,
+see link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html[Tagging Your Amazon EC2 Resources]
+in the AWS documentation.
+|====

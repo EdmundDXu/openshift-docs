@@ -1,0 +1,78 @@
+// Module included in the following assemblies:
+//
+// * applications/operators/olm-understanding-operatorhub.adoc
+
+[id="olm-operatorhub-arch_{context}"]
+= OperatorHub architecture
+
+The OperatorHub component's Operator manages two Custom Resource Definitions
+(CRDs): an
+link:https://github.com/operator-framework/operator-marketplace/blob/release-4.1/deploy/crds/operators_v1_operatorsource_crd.yaml[OperatorSource]
+and a
+link:https://github.com/operator-framework/operator-marketplace/blob/release-4.1/deploy/crds/operators_v1_catalogsourceconfig_crd.yaml[CatalogSourceConfig].
+
+[NOTE]
+====
+Although some OperatorSource and CatalogSourceConfig information is exposed
+through the OperatorHub user interface, those files are only used directly
+by those who are creating their own Operators.
+====
+
+[id="olm-operatorhub-arch-operatorsource_{context}"]
+== OperatorSource
+
+For each Operator, the OperatorSource is used to define the external data store
+used to store Operator bundles. A
+link:https://github.com/operator-framework/operator-marketplace/blob/master/deploy/examples/community.operatorsource.cr.yaml[simple OperatorSource]
+includes:
+
+[cols="2a,8a",options="header"]
+|===
+
+|Field
+|Description
+
+|`type`
+|To identify the data store as an application registry, `type` is set to `appregistry`.
+
+|`endpoint`
+|Currently, Quay is the external data store used by the OperatorHub, so
+the endpoint is set to `https://quay.io/cnr` for the Quay.io `appregistry`.
+
+|`registryNamespace`
+|For a Community Operator, this is set to `community-operator`.
+
+|`displayName`
+|Optionally set to a name that appears in the OperatorHub user interface for the
+Operator.
+
+|`publisher`
+|Optionally set to the person or organization publishing the Operator, so it
+can be displayed on the OperatorHub.
+
+|===
+
+[id="olm-operatorhub-arch-catalogsourceconfig_{context}"]
+== CatalogSourceConfig
+
+An Operator's CatalogSourceConfig is used to enable an Operator present in the
+OperatorSource on the cluster.
+
+A
+link:https://github.com/operator-framework/operator-marketplace/blob/master/deploy/examples/catalogsourceconfig.cr.yaml[simple CatalogSourceConfig]
+must identify:
+
+[cols="2a,8a",options="header"]
+|===
+
+|Field
+|Description
+
+|`targetNamespace`
+|The location where the Operator would be deployed and updated, such as
+`openshift-operators`. This is a namespace that the OLM watches.
+
+|`packages`
+|A comma-separated list of packages that make up the content of the Operator.
+
+|===

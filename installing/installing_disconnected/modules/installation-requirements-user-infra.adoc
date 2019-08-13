@@ -1,0 +1,93 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_bare_metal/installing-bare-metal.adoc
+// * installing/installing_vsphere/installing-vsphere.adoc
+
+[id="installation-requirements-user-infra_{context}"]
+= Machine requirements for a cluster with user-provisioned infrastructure
+
+For a cluster that contains user-provisioned infrastructure, you must deploy all
+of the required machines.
+
+[id="machine-requirements_{context}"]
+== Required machines
+
+The smallest {product-title} clusters require the following hosts:
+
+* One bootstrap machine
+
+* Three control plane, or master, machines
+
+* At least two compute, or worker, machines
+
+[NOTE]
+====
+The cluster requires the bootstrap machine to deploy the {product-title} cluster
+on the three control plane machines. You can remove the bootstrap machine after
+you install the cluster.
+====
+
+[IMPORTANT]
+====
+To maintain high availability of your cluster, use separate physical hosts for
+these cluster machines.
+====
+
+The bootstrap and control plane machines must use {op-system-first} as the
+operating system.
+
+[id="network-connectivity_{context}"]
+== Network connectivity requirements
+
+All the {op-system-first} machines require network in `initramfs` during boot
+to fetch Ignition config files from the Machine Config Server. During the initial
+boot, the machines require a DHCP server in order to establish a network
+connection to download their Ignition config files. After the initial boot, the
+machines can be configured to use static IP addresses.
+
+[id="minimum-resource-requirements_{context}"]
+== Minimum resource requirements
+
+Each cluster machine must meet the following minimum requirements:
+
+[cols="2,2,2,2,2",options="header"]
+|===
+
+|Machine
+|Operating System
+|vCPU
+|RAM
+|Storage
+
+|Bootstrap
+|{op-system}
+|4
+|16 GB
+|120 GB
+
+|Control plane
+|{op-system}
+|4
+|16 GB
+|120 GB
+
+|Compute
+|{op-system} or RHEL 7.6
+|2
+|8 GB
+|120 GB
+
+|===
+
+[id="csr_management_{context}"]
+== Certificate signing requests management
+
+Because your cluster has limited access to automatic machine management when you
+use infrastructure that you provision, you must provide a mechanism for approving
+cluster certificate signing requests (CSRs) after installation. The
+`kube-controller-manager` only approves the kubelet client CSRs. The
+`machine-approver` cannot guarantee the validity of a serving certificate
+that is requested by using kubelet credentials because it cannot confirm that
+the correct machine issued the request. You must determine and implement a
+method of verifying the validity of the kubelet serving certificate requests
+and approving them.

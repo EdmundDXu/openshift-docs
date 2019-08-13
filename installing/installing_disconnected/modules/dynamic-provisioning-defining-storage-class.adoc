@@ -1,0 +1,19 @@
+// Module included in the following assemblies:
+//
+// * storage/dynamic-provisioning.adoc
+
+[id="defining-storage-classes_{context}"]
+= Defining a StorageClass
+
+StorageClass objects are currently a globally scoped object and must be
+created by `cluster-admin` or `storage-admin` users.
+
+[NOTE]
+====
+For AWS, a default StorageClass is created during {product-title} 
+installation. You can change the default StorageClass after installation,
+but the created StorageClass cannot be deleted.
+====
+
+The following sections describe the basic object definition for a
+StorageClass and specific examples for each of the supported plug-in types.

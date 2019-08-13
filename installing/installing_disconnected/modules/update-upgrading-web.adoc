@@ -1,0 +1,35 @@
+// Module included in the following assemblies:
+//
+// * updating/updating-cluster.adoc
+
+[id="update-upgrading-web_{context}"]
+= Updating a cluster by using the web console
+
+If updates are available, you can update your cluster from the web console.
+
+You can find information about available {product-title} advisories and updates
+link:https://access.redhat.com/downloads/content/290/ver=4.1/rhel---7/4.1.0/x86_64/product-errata[in the errata section]
+of the Customer Portal.
+
+.Prerequisites
+
+* Have access to the web console as a user with `admin` privileges.
+
+.Procedure
+
+. From the web console, click *Administration* > *Cluster Settings* and review
+the contents of the *Overview* tab.
+.. For production clusters, ensure that the *CHANNEL* is set to `stable-4.1`.
++
+[IMPORTANT]
+====
+For production clusters, you must subscribe to the `stable-4.1` channel.
+====
+.. If the *UPDATE STATUS* is not *Updates Available*, you cannot upgrade your
+cluster.
+.. The *DESIRED VERSION* indicates the cluster version that your cluster is running
+or is updating to.
+
+. Click *Updates Available*, select a version to update to, and click *Update*.
+The *UPDATE STATUS* changes to `Updating`, and you can review the progress of
+the Operator upgrades on the *Cluster Operators* tab.

@@ -1,0 +1,38 @@
+// Module included in the following assemblies:
+//
+// * nodes/nodes-nodes-working.adoc
+
+[id="nodes-nodes-working-updating_{context}"]
+= Understanding how to update labels on nodes
+
+You can update any label on a node.
+
+[NOTE]
+====
+Node labels are not persisted after a node is deleted even if the node is backed up by a Machine.
+If you must ensure that the labels persist, add the labels to the MachineSet that controls the Machine instead.
+====
+
+* The following command adds or updates labels on a node:
++
+----
+$ oc label node <node> <key_1>=<value_1> ... <key_n>=<value_n>
+----
++
+For example:
++
+----
+$ oc label nodes webconsole-7f7f6 unhealthy=true
+----
+
+* The following command updates all pods in the namespace:
++
+----
+$ oc label pods --all <key_1>=<value_1>
+----
++
+For example:
++
+----
+$ oc label pods --all status=unhealthy
+----

@@ -1,0 +1,51 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_bare_metal/installing-bare-metal.adoc
+// * installing/installing_vsphere/installing-vsphere.adoc
+
+[id="installation-initializing-manual_{context}"]
+= Manually creating the installation configuration file
+
+For installations of {product-title} that use user-provisioned
+infrastructure, you must manually generate your installation configuration file.
+
+.Prerequisites
+
+* Obtain the {product-title} installation program and the access token for your
+cluster.
+
+.Procedure
+
+. Create an installation directory to store your required installation assets
+in:
++
+----
+$ mkdir <installation_directory>
+----
++
+[IMPORTANT]
+====
+You must create a directory. Some installation assets, like bootstrap X.509
+certificates have short expiration intervals, so you must not reuse an
+installation directory. If you want to reuse individual files from another
+cluster installation, you can copy them into your directory. However, the file
+names for the installation assets might change between releases. Use caution
+when copying installation files from an earlier {product-title} version.
+====
+
+. Customize the following `install-config.yaml` file template and save 
+it in the `<installation_directory>`.
++
+[NOTE]
+====
+You must name this configuration file `install-config.yaml`.
+====
+
+. Back up the `install-config.yaml` file so that you can use it to install
+multiple clusters.
++
+[IMPORTANT]
+====
+The `install-config.yaml` file is consumed during the next step of the
+installation process. You must back it up now.
+====

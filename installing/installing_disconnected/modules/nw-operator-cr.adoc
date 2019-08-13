@@ -1,0 +1,140 @@
+// Module included in the following assemblies:
+//
+// * networking/cluster-network-operator.adoc
+// * installing/installing_aws/installing-aws-network-customizations.adoc
+
+ifeval::["{context}" == "installing-aws-network-customizations"]
+:install:
+endif::[]
+ifeval::["{context}" != "installing-aws-network-customizations"]
+:not-install:
+endif::[]
+
+// Extract parameter descriptions that may have a different ordinal
+// position depending on the module context.
+
+:kube-proxy-refresh: pass:q[The refresh period for `iptables` rules. The default \
+value is `30s`. Valid suffixes include `s`, `m`, and `h` and are described in \
+the link:https://golang.org/pkg/time/#ParseDuration[Go time package] \
+documentation.]
+
+:iptables-min-sync-period: pass:q[The minimum duration before refreshing `iptables` \
+rules. This parameter ensures that the refresh does not happen too frequently. \
+Valid suffixes include `s`, `m`, and `h` and are described in the \
+link:https://golang.org/pkg/time/#ParseDuration[Go time package]]
+
+// Begin module
+
+[id="nw-operator-cr_{context}"]
+= Cluster Network Operator custom resource (CR)
+
+The cluster network configuration in the `Network.operator.openshift.io` custom
+resource (CR) stores the configuration settings for the Cluster Network
+Operator (CNO).
+
+The following CR displays the default configuration for the CNO and explains
+both the parameters you can configure and valid parameter values:
+
+.Cluster Network Operator CR
+[source,yaml]
+ifdef::install[]
+----
+apiVersion: operator.openshift.io/v1
+kind: Network
+metadata:
+  name: cluster
+spec:
+  clusterNetwork: <1>
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  serviceNetwork: <1>
+  - 172.30.0.0/16
+  defaultNetwork:
+    type: OpenShiftSDN <1>
+    openshiftSDNConfig: <2>
+      mode: NetworkPolicy <3>
+      mtu: 1450 <4>
+      vxlanPort: 4789 <5>
+  kubeProxyConfig: <6>
+    iptablesSyncPeriod: 30s <7>
+    proxyArguments:
+      iptables-min-sync-period: <8>
+      - 30s
+----
+<1> Specified in the `install-config.yaml` file.
+
+<2> Specify only if you want to override part of the {product-title} SDN
+configuration.
+
+<3> Configures the isolation mode for `OpenShiftSDN`. The allowed values are
+`Multitenant`, `Subnet`, or `NetworkPolicy`. The default value is
+`NetworkPolicy`.
+
+<4> MTU for the VXLAN overlay network. This value is normally configured
+automatically, but if the nodes in your cluster do not all use the same MTU,
+then you must set this explicitly to 50 less than the smallest node MTU value.
+
+<5> The port to use for all VXLAN packets. The default value is `4789`. If you
+are running in a virtualized environment with existing nodes that are part of
+another VXLAN network then you might be required to change this.
+ifdef::install[]
++
+On Amazon Web Services (AWS), you can select an alternate port for the VXLAN
+between port `9000` and port `9999`.
+endif::install[]
+
+<6> The parameters for this object specify the `kube-proxy` configuration. If
+you do not specify the parameter values, the Network Operator applies the
+displayed default parameter values.
+
+<7> {kube-proxy-refresh}
+<8> {iptables-min-sync-period}
+endif::install[]
+
+ifdef::not-install[]
+----
+apiVersion: operator.openshift.io/v1
+kind: Network
+spec:
+  clusterNetwork: <1>
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  serviceNetwork: <2>
+  - 172.30.0.0/16
+  defaultNetwork:
+    type: OpenShiftSDN <3>
+    openshiftSDNConfig: <4>
+      mode: NetworkPolicy <5>
+      mtu: 1450 <6>
+      vxlanPort: 4789 <7>
+  kubeProxyConfig: <8>
+    iptablesSyncPeriod: 30s <9>
+    proxyArguments:
+      iptables-min-sync-period: <10>
+      - 30s
+----
+<1> A list specifying the blocks of IP addresses from which Pod IPs are
+allocated and the subnet prefix length assigned to each individual node.
+
+<2> A block of IP addresses for services. The OpenShift SDN Container Network
+Interface (CNI) plug-in supports only a single IP address block for the service
+network.
+
+<3> The Software Defined Networking (SDN) plug-in being used. OpenShift SDN is
+the only plug-in supported in {product-title} {product-version}.
+
+<4> OpenShift SDN specific configuration parameters.
+
+<5> The isolation mode for the OpenShift SDN CNI plug-in.
+
+<6> MTU for the VXLAN overlay network. This value is normally configured
+automatically.
+
+<7> The port to use for all VXLAN packets. The default value is `4789`.
+
+<8> The parameters for this object specify the Kubernetes network proxy
+(kube-proxy) configuration.
+
+<9> {kube-proxy-refresh}
+<10> {iptables-min-sync-period}
+endif::not-install[]

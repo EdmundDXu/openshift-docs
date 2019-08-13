@@ -1,0 +1,27 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_bare_metal/installing-bare-metal.adoc
+// * installing/installing_vsphere/installing-vsphere.adoc
+
+[id="installation-infrastructure-user-infra_{context}"]
+= Creating the user-provisioned infrastructure
+
+Before you deploy a {product-title} cluster that uses user-provisioned
+infrastructure, you must create the underlying infrastructure.
+
+.Prerequistes
+
+* Review the link:https://access.redhat.com/articles/4128421[OpenShift Container Platform 4.x Tested Integrations]
+page before you create the supporting infrastructure for your cluster.
+
+.Procedure
+
+. Configure DHCP.
+
+. Provision the required load balancers.
+
+. Configure the ports for your machines.
+
+. Configure DNS.
+
+. Ensure network connectivity.

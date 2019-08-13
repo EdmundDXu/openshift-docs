@@ -1,0 +1,64 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_aws_user_infra/installing-aws-user-infra.adoc
+
+[id="installation-aws-user-infra-rhcos-ami_{context}"]
+= {op-system} AMIs for the AWS infrastructure
+
+You must use a valid {op-system-first} AMI for your Amazon Web Services
+(AWS) zone for your {product-title} nodes.
+
+.{op-system} AMIs
+
+[cols="2a,2a",options="header"]
+|===
+
+|AWS zone
+|AWS AMI
+
+|`ap-northeast-1`
+|`ami-0c63b39219b8123e5`
+
+|`ap-northeast-2`
+|`ami-073cba0913d2250a4`
+
+|`ap-south-1`
+|`ami-0270be11430101040`
+
+|`ap-southeast-1`
+|`ami-06eb9d35ede4f08a3`
+
+|`ap-southeast-2`
+|`ami-0d980796ce258b5d5`
+
+|`ca-central-1`
+|`ami-0f907257d1686e3f7`
+
+|`eu-central-1`
+|`ami-02fdd627029c0055b`
+
+|`eu-west-1`
+|`ami-0d4839574724ed3fa`
+
+|`eu-west-2`
+|`ami-053073b95aa285347`
+
+|`eu-west-3`
+|`ami-09deb5deb6567bcd5`
+
+|`sa-east-1`
+|`ami-068a2000546e1889d`
+
+|`us-east-1`
+|`ami-046fe691f52a953f9`
+
+|`us-east-2`
+|`ami-0649fd5d42859bdfc`
+
+|`us-west-1`
+|`ami-0c1d2b5606111ac8c`
+
+|`us-west-2`
+|`ami-00745fcbb14a863ed`
+
+|===

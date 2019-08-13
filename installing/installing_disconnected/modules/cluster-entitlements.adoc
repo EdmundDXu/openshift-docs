@@ -1,0 +1,39 @@
+// Module included in the following assemblies:
+//
+// * architecture/architecture.adoc
+// * installing/installing_aws/installing-aws-default.adoc
+// * installing/installing_aws/installing-aws-customizations.adoc
+// * installing/installing_aws/installing-aws-network-customizations.adoc
+// * installing/installing_aws_user_infra/installing-aws-user-infra.adoc
+// * installing/installing_bare_metal/installing-bare-metal.adoc
+// * installing/installing_vsphere/installing-vsphere.adoc
+
+[id="cluster-entitlements_{context}"]
+= Internet and Telemetry access for {product-title}
+
+In {product-title} {product-version}, Telemetry is the component that provides
+metrics about cluster health and the success of updates. To perform subscription
+management, including legally entitling your purchase from Red Hat, you must use
+the Telemetry service and access the
+link:https://cloud.redhat.com/openshift/install[OpenShift Infrastructure Providers] page.
+
+Because there is no disconnected subscription management, you cannot both opt
+out of sending data back to Red Hat and entitle your purchase. Support for
+disconnected subscription management might be added in future releases of
+{product-title}
+
+[IMPORTANT]
+====
+Your machines must have direct internet access to install the cluster.
+====
+
+You must have internet access to:
+
+* Access the
+link:https://cloud.redhat.com/openshift/install[OpenShift Infrastructure Providers]
+page to download the installation program
+* Access link:http://quay.io[quay.io] to obtain the packages that are required
+to install your cluster
+* Obtain the packages that are required to perform cluster updates
+* Access link:http://cloud.redhat.com[Red Hat's software as a service page]
+to perform subscription management

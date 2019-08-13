@@ -1,0 +1,41 @@
+// Module included in the following assemblies:
+//
+// * logging/efk-logging-fluentd.adoc
+
+[id="efk-logging-fluentd-limits_{context}"]
+= Configure Fluentd CPU and memory limits
+
+Each component specification allows for adjustments to both the CPU and memory limits. 
+
+.Procedure
+
+. Edit the Cluster Logging Custom Resource (CR) in the `openshift-logging` project: 
++
+----
+$ oc edit ClusterLogging instance
+----
++
+[source,yaml]
+----
+$ oc edit ClusterLogging instance
+
+apiVersion: "logging.openshift.io/v1"
+kind: "ClusterLogging"
+metadata:
+  name: "instance"
+
+....
+
+spec:
+  collection:
+    logs:
+      fluentd:
+        resources:
+          limits: <1>
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 1Gi
+----
+<1> Specify the CPU and memory limits as needed. The values shown are the default values.

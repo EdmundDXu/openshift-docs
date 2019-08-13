@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// * installing/installing_bare_metal/installing-bare-metal.adoc
+// * installing/installing_vsphere/installing-vsphere.adoc
+
+[id="installation-installing-bare-metal_{context}"]
+= Creating the cluster
+
+To create the {product-title} cluster, you provision machines by using the Ignition config
+files that you generated with the installation program.
+
+.Prerequisites
+
+* Create the required infrastructure for the cluster.
+* You obtained the installation program and generated the Ignition config files
+for your cluster.
+* You used the Ignition config files to create {op-system} machines for your
+cluster.
+* Your machines have direct internet access.
+
+.Procedure
+
+. Start and monitor the installation process:
++
+----
+$ ./openshift-install --dir=<installation_directory> wait-for bootstrap-complete \ <1>
+    --log-level debug <2>
+
+INFO Waiting up to 30m0s for the Kubernetes API at https://api.test.example.com:6443...
+INFO API v1.13.4+b626c2fe1 up
+INFO Waiting up to 30m0s for the bootstrap-complete event...
+----
+<1> For `<installation_directory>`, specify the path to the directory that you
+stored the installation files in.
+<2> Optionally, include the `--log-level debug` option to view installation details.
++
+The command succeeds when the Kubernetes API server signals that it has been
+bootstrapped on the control plane machines.
+
+. After bootstrap process is complete, remove the bootstrap machine from the
+load balancer.
++
+[IMPORTANT]
+====
+You must remove the bootstrap machine from the load balancer at this point. You
+can also remove or reformat the machine itself.
+====
